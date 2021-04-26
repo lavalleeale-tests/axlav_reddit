@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:oauth2_client/oauth2_helper.dart';
-import 'Reddit_oauth2_client.dart';
+import 'package:oauth2_client/reddit_oauth_client.dart';
 
 RedditOauth2Client client = RedditOauth2Client(
   customUriScheme:
@@ -10,7 +10,6 @@ RedditOauth2Client client = RedditOauth2Client(
 );
 
 OAuth2Helper oauth2Helper = OAuth2Helper(client,
-    grantType: OAuth2Helper.AUTHORIZATION_CODE,
     clientId: 'gksNg5pQqAs2_Q',
     clientSecret: "",
     scopes: ['identity', 'read'],
@@ -30,14 +29,14 @@ class _AuthenticateState extends State<Authenticate> {
           onPressed: () {
             oauth2Helper.getToken().then((value) => {Navigator.pop(context)});
           },
-          child: Text("Login")),
+          child: const Text("Login")),
       ElevatedButton(
           onPressed: () {
             oauth2Helper
                 .removeAllTokens()
                 .then((value) => {Navigator.pop(context)});
           },
-          child: Text("Logout"))
+          child: const Text("Logout"))
     ]);
   }
 }

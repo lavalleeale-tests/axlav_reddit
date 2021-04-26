@@ -1,4 +1,4 @@
-import 'package:axlav_reddit/APIClasses.dart';
+import 'package:axlav_reddit/api_classes.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:html_character_entities/html_character_entities.dart';
@@ -7,7 +7,7 @@ class Post extends StatelessWidget {
   final ValueChanged<APIPostData> onTapped;
   final APIPostData post;
 
-  Post({
+  const Post({
     @required this.post,
     @required this.onTapped,
   });
@@ -32,6 +32,8 @@ class Post extends StatelessWidget {
                     ? Image.network(post.url_overridden_by_dest)
                     : post.post_hint == "link"
                         ? InkWell(
+                            onTap: () =>
+                                _launchURL(post.url_overridden_by_dest),
                             child: post.thumbnail != "" &&
                                     post.thumbnail != "self" &&
                                     post.thumbnail != "nsfw" &&
@@ -42,7 +44,7 @@ class Post extends StatelessWidget {
                                     child: Card(
                                         color: Colors.black,
                                         child: Padding(
-                                          padding: EdgeInsets.all(4),
+                                          padding: const EdgeInsets.all(4),
                                           child: Row(
                                             children: [
                                               Image.network(post.thumbnail),
@@ -53,17 +55,15 @@ class Post extends StatelessWidget {
                                                       ? "${post.url_overridden_by_dest.substring(0, 30)}..."
                                                       : post
                                                           .url_overridden_by_dest,
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       color: Colors.grey))
                                             ],
                                           ),
                                         )))
                                 : Text(
                                     post.url_overridden_by_dest,
-                                    style: TextStyle(color: Colors.blue),
-                                  ),
-                            onTap: () =>
-                                _launchURL(post.url_overridden_by_dest))
+                                    style: const TextStyle(color: Colors.blue),
+                                  ))
                         : post.selftext != ""
                             ? Text(HtmlCharacterEntities.decode(
                                 post.selftext.length > 100
@@ -75,7 +75,7 @@ class Post extends StatelessWidget {
                                     post.thumbnail != "spoiler" &&
                                     post.thumbnail != "default"
                                 ? Image.network(post.thumbnail)
-                                : Text("Unknown Post"),
+                                : const Text("Unknown Post"),
               )
             ],
           ),
@@ -83,5 +83,5 @@ class Post extends StatelessWidget {
   }
 }
 
-void _launchURL(_url) async =>
+Future<void> _launchURL(String _url) async =>
     await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';

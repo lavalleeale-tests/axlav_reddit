@@ -1,8 +1,8 @@
-import 'package:axlav_reddit/APIClasses.dart';
-import 'package:axlav_reddit/Authenticate.dart';
-import 'package:axlav_reddit/PostDetails.dart';
+import 'package:axlav_reddit/api_classes.dart';
+import 'package:axlav_reddit/authenticate.dart';
+import 'package:axlav_reddit/post_details.dart';
 import 'package:flutter/material.dart';
-import 'Posts.dart';
+import 'posts.dart';
 
 void main() {
   runApp(AxlavRedditApp());
@@ -23,19 +23,19 @@ class _AxlavRedditAppState extends State<AxlavRedditApp> {
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           appBar: AppBar(
-            title: Text("Axlav's Reddit"),
+            title: const Text("Axlav's Reddit"),
             actions: [
               IconButton(
                   onPressed: () => {setState(() => _showAuth = !_showAuth)},
-                  icon: Icon(Icons.account_circle)),
-              IconButton(onPressed: () => {}, icon: Icon(Icons.settings))
+                  icon: const Icon(Icons.account_circle)),
+              IconButton(onPressed: () => {}, icon: const Icon(Icons.settings))
             ],
           ),
           body: Navigator(
             pages: [
               MaterialPage(
                   child: Posts(onTapped: _handlePostTapped),
-                  key: ValueKey("PostsPage")),
+                  key: const ValueKey("PostsPage")),
               if (_selectedPost != null) PostDetailsPage(post: _selectedPost),
               if (_showAuth && _selectedPost == null)
                 MaterialPage(child: Authenticate())
@@ -69,6 +69,7 @@ class PostDetailsPage extends Page {
     this.post,
   }) : super(key: ValueKey(post));
 
+  @override
   Route createRoute(BuildContext context) {
     return MaterialPageRoute(
       settings: this,
